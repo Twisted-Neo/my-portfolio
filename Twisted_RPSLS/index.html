@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON RPSLS · CARD BATTLE</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="start-menu">
+            <div class="title">RPSLS · CARD</div>
+            <button class="neon-button" id="start-btn">[ START ]</button>
+        </div>
+
+        <div id="tutorial-screen" class="modal">
+            <div class="modal-content">
+                <h2>// INITIALIZATION //</h2>
+                <ul class="tutorial-list">
+                    <li><strong>DRAW</strong> cards from your deck using the bottom-left icon.</li>
+                    <li><strong>SELECT</strong> a card from your hand and press READY.</li>
+                    <li><strong>WIN/TIE</strong> to keep your card. <strong>LOSE</strong>, and it's destroyed.</li>
+                </ul>
+                <div class="matchup-grid">
+                    <p><img src="assets/Scissors.png" class="inline-icon" alt="Scissors"> cuts <img src="assets/Paper.png" class="inline-icon" alt="Paper"> & decapitates <img src="assets/Lizard.png" class="inline-icon" alt="Lizard"></p>
+                    <p><img src="assets/Paper.png" class="inline-icon" alt="Paper"> covers <img src="assets/Rock.png" class="inline-icon" alt="Rock"> & disproves <img src="assets/Spock.png" class="inline-icon" alt="Spock"></p>
+                    <p><img src="assets/Rock.png" class="inline-icon" alt="Rock"> crushes <img src="assets/Scissors.png" class="inline-icon" alt="Scissors"> & crushes <img src="assets/Lizard.png" class="inline-icon" alt="Lizard"></p>
+                    <p><img src="assets/Lizard.png" class="inline-icon" alt="Lizard"> poisons <img src="assets/Spock.png" class="inline-icon" alt="Spock"> & eats <img src="assets/Paper.png" class="inline-icon" alt="Paper"></p>
+                    <p><img src="assets/Spock.png" class="inline-icon" alt="Spock"> smashes <img src="assets/Scissors.png" class="inline-icon" alt="Scissors"> & vaporizes <img src="assets/Rock.png" class="inline-icon" alt="Rock"></p>
+                </div>
+                <button class="neon-button close-modal" id="start-tutorial-btn">[ INITIALIZE BATTLE ]</button>
+            </div>
+        </div>
+
+        <div id="particles-container"></div>
+
+        <div id="map-screen" style="display: none;">
+            <div class="top-panel">
+                <div class="game-title">// NAVIGATION //</div>
+                <div class="deck-counter" id="map-deck-counter">DECK: 5</div>
+                <div class="money-counter">
+                    <img src="assets/Shop.png" class="money-icon" alt="money">
+                    <span id="map-money-amount">0</span>
+                </div>
+                <button class="view-deck-btn" id="map-view-deck-btn">VIEW DECK</button>
+            </div>
+            <div id="map-container">
+                <canvas id="map-canvas"></canvas>
+                <div id="map-nodes-layer"></div>
+            </div>
+        </div>
+
+        <div id="game-screen">
+            <div class="top-panel">
+                <div class="game-title" id="battle-title">// CARD BATTLE //</div>
+                <div class="opponent-hand" id="opponent-hand"></div>
+                <div class="round-counter" id="round-counter">TURN 0/3</div>
+                <div class="deck-counter" id="deck-counter">DECK: 5</div>
+                <div class="money-counter">
+                    <img src="assets/Shop.png" class="money-icon" alt="money">
+                    <span id="money-amount">0</span>
+                </div>
+                <button class="view-deck-btn" id="view-deck-btn">VIEW DECK</button>
+            </div>
+
+            <div class="middle-panel">
+                <div class="slot player-slot" id="player-slot"></div>
+                <div class="slot opponent-slot" id="opponent-slot"></div>
+                <div class="result-message" id="result-message"></div>
+            </div>
+
+            <div class="bottom-panel">
+                <div class="hand-area" id="hand-area"></div>
+                <div class="control-panel">
+                    <button class="deck-button" id="deck-btn" disabled>
+                        <img src="assets/Deck.png" alt="deck">
+                    </button>
+                    <button class="game-button" id="ready-btn" disabled>READY</button>
+                    <button class="game-button" id="continue-btn" disabled>CONTINUE</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="deck-viewer" class="modal">
+            <div class="modal-content">
+                <h2>YOUR DECK</h2>
+                <div class="deck-cards" id="deck-cards"></div>
+                <button class="neon-button close-modal" id="close-deck-btn">CLOSE</button>
+            </div>
+        </div>
+
+        <div id="add-card-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="reward-title">REWARD: CHOOSE A CARD</h2>
+                <div class="card-choices" id="card-choices"></div>
+                <button class="game-button" id="add-card-btn" disabled>TAKE</button>
+                <button class="game-button" id="skip-add-btn">SKIP</button>
+            </div>
+        </div>
+
+        <div id="upgrade-modal" class="modal">
+            <div class="modal-content">
+                <h2>UPGRADE TERMINAL</h2>
+                <p style="color: #ccc; margin-bottom: 20px;">Select a card from your deck to permanently enhance.</p>
+                <div class="deck-cards" id="upgrade-choices"></div>
+                <button class="game-button" id="confirm-upgrade-btn" disabled>UPGRADE</button>
+                <button class="game-button" id="skip-upgrade-btn">SKIP</button>
+            </div>
+        </div>
+
+        <div id="transition-overlay">
+            <div class="transition-text">► PROCESSING DATA ◄</div>
+        </div>
+
+        <div id="game-over">
+            <h1 id="end-title">SYSTEM FAILURE</h1>
+            <p id="end-desc" style="color: #fff; font-size: 1.5rem; margin-bottom: 20px;">Your deck was decimated.</p>
+            <button class="neon-button" id="restart-btn">[ REBOOT SYSTEM ]</button>
+        </div>
+    </div>
+
+    <script src="js/ai.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

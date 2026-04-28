@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twisted Jumper</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="score-container">
+        <span class="score-label">SCORE</span>
+        <span id="score">00000</span>
+    </div>
+
+    <div id="game-container">
+        <div id="game-world">
+            <div id="player"></div>
+        </div>
+
+        <div class="screen-effects">
+            <div class="scanlines"></div>
+            <div class="vignette"></div>
+        </div>
+        
+        <div id="start-message">
+            <div class="msg-content">
+                <h1 class="game-title" data-text="TWISTED JUMPER">TWISTED JUMPER</h1>
+                <p class="blink-text">PRESS <span class="highlight">SPACE</span> TO INITIALIZE</p>
+                
+                <div class="controls-box">
+                    <div class="control-col">
+                        <div class="key-group">
+                            <kbd class="key">A</kbd> <kbd class="key">D</kbd> / <kbd class="key">&larr;</kbd> <kbd class="key">&rarr;</kbd>
+                            <div class="action-label">MOVE LEFT/RIGHT</div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-col">
+                        <div class="key-group">
+                            <kbd class="key">SPACE</kbd> / <kbd class="key">W</kbd>
+                            <div class="action-label">GRAVITY FLIP</div>
+                        </div>
+                    </div>
+
+                    <div class="control-col">
+                        <div class="key-group">
+                            <kbd class="key">S</kbd> / <kbd class="key">&darr;</kbd>
+                            <div class="action-label">SLIDE / DUCK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="js/scripts.js"></script>
+</body>
+</html>

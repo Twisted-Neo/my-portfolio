@@ -1,0 +1,221 @@
+:root {
+    --c-bg: #111;
+    --c-cyan: #00f3ff;
+    --c-pink: #ff0055;
+    --c-gold: #ffd700;
+    --c-purple: #bc13fe;
+    --c-magenta: #ff00e1;
+    --c-green: #0aff00;
+    --c-white: #ffffff;
+    --font-main: 'Courier New', monospace;
+}
+
+body {
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; margin: 0; overflow: hidden;
+    background-color: #050505;
+    font-family: var(--font-main);
+    color: var(--c-white);
+}
+
+#game-container {
+    width: 1500px; height: 600px;
+    position: relative; 
+    background-color: var(--c-bg);
+    overflow: hidden;
+    border: 2px solid #333;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.screen-effects {
+    position: absolute; inset: 0; pointer-events: none; z-index: 90;
+}
+
+.scanlines {
+    width: 100%; height: 100%; position: absolute;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0,0,0,0.2) 50%,
+        rgba(0,0,0,0.2)
+    );
+    background-size: 100% 4px;
+    opacity: 0.6;
+}
+
+.vignette {
+    width: 100%; height: 100%; position: absolute;
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+}
+
+#game-world {
+    width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+    animation: chromaticAnim 4s infinite linear alternate-reverse;
+}
+
+@keyframes chromaticAnim {
+    0% { text-shadow: -1px 0 var(--c-magenta), 1px 0 var(--c-cyan); transform: translate(0,0); }
+    10% { text-shadow: -1px 0 var(--c-magenta), 1px 0 var(--c-cyan); transform: translate(0,0); }
+    12% { text-shadow: 2px 0 var(--c-magenta), -2px 0 var(--c-cyan); transform: translate(-1px, 0); }
+    14% { text-shadow: -1px 0 var(--c-magenta), 1px 0 var(--c-cyan); transform: translate(0,0); }
+    100% { text-shadow: -1px 0 var(--c-magenta), 1px 0 var(--c-cyan); }
+}
+
+#player {
+    position: absolute; left: 50px; bottom: 0;
+    width: 40px; height: 40px;
+    background: var(--c-cyan);
+    box-shadow: 0 0 15px var(--c-cyan), inset 0 0 10px rgba(255,255,255,0.5);
+    z-index: 10;
+    transition: background-color 0.1s, box-shadow 0.1s;
+    transform-origin: center bottom;
+}
+#player.ducking { height: 20px; }
+#player.invincible-active {
+    background: var(--c-white) !important;
+    box-shadow: 0 0 40px var(--c-white), 0 0 10px var(--c-cyan) !important;
+    animation: flicker 0.1s infinite;
+}
+
+.obstacle {
+    position: absolute; bottom: 0;
+    box-shadow: 0 0 8px currentColor;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.obstacle { width: 30px; height: 50px; background: var(--c-pink); color: var(--c-pink); }
+.obstacle-flying { height: 30px; background: var(--c-gold); color: var(--c-gold); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.obstacle-hole { width: 30px; background: var(--c-green); color: var(--c-green); opacity: 0.8; }
+.obstacle-tall { background: var(--c-purple); color: var(--c-purple); }
+
+.powerup-invincible {
+    position: absolute; width: 30px; height: 30px; background: var(--c-white);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--c-white);
+    animation: floatPulse 0.5s ease-in-out infinite alternate;
+}
+
+#score-container {
+    position: absolute; top: 20px; right: 30px;
+    background: rgba(0, 20, 40, 0.6);
+    padding: 10px 20px;
+    border: 1px solid var(--c-cyan);
+    border-left: 5px solid var(--c-cyan);
+    z-index: 100;
+    display: flex; flex-direction: column; align-items: flex-end;
+    backdrop-filter: blur(2px);
+    transform: skewX(-10deg);
+}
+
+.score-label { font-size: 12px; color: var(--c-cyan); letter-spacing: 2px; }
+#score { font-size: 32px; font-weight: bold; color: #fff; text-shadow: 0 0 5px var(--c-cyan); }
+
+#start-message {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    z-index: 100;
+    perspective: 1000px;
+}
+
+.msg-content {
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid var(--c-pink);
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.2), inset 0 0 50px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.msg-content::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+    background: var(--c-pink);
+    box-shadow: 0 0 10px var(--c-pink);
+}
+
+.game-title {
+    font-size: 64px; margin: 0 0 20px;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--c-white);
+    position: relative;
+    letter-spacing: 6px;
+}
+
+.game-title::before {
+    content: attr(data-text);
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+    color: var(--c-pink); opacity: 0.5; z-index: -1;
+    animation: glitch 2s infinite;
+}
+.game-title::after {
+    content: attr(data-text);
+    position: absolute; left: 3px; top: 0; width: 100%; height: 100%;
+    color: var(--c-cyan); opacity: 0.5; z-index: -2;
+    animation: glitch 3s infinite reverse;
+}
+
+.blink-text { 
+    font-size: 18px; color: #888; margin-bottom: 30px; 
+    animation: blink 1s step-end infinite; 
+}
+.highlight { color: var(--c-white); background: var(--c-pink); padding: 2px 5px; }
+
+.controls-box {
+    display: flex; justify-content: space-around;
+    border-top: 1px solid #333; padding-top: 20px;
+}
+.control-col { text-align: center; }
+.key-group { margin-bottom: 10px; }
+.key {
+    display: inline-block; padding: 5px 10px;
+    border: 1px solid var(--c-cyan); color: var(--c-cyan);
+    border-radius: 4px; font-size: 14px; margin: 0 2px;
+    box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+}
+.action-label { font-size: 10px; color: #666; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+.star-layer { position: absolute; width: 100%; height: 100%; }
+#stars-far {
+    background-image: radial-gradient(2px 2px at 20px 30px, #555, transparent),
+                      radial-gradient(2px 2px at 90px 40px, #777, transparent);
+    background-size: 550px 550px; opacity: 0.5;
+}
+#stars-near {
+    background-image: radial-gradient(3px 3px at 50px 100px, #fff, transparent),
+                      radial-gradient(3px 3px at 220px 140px, #aaa, transparent);
+    background-size: 350px 350px; opacity: 0.8;
+}
+
+.shard {
+    position: absolute; width: 6px; height: 6px;
+    background: var(--c-cyan); box-shadow: 0 0 10px var(--c-cyan);
+    z-index: 15; animation: shardExplode 0.6s ease-out forwards;
+}
+.ghost {
+    position: absolute; opacity: 0.3; background: var(--c-cyan);
+    animation: fadeOut 0.3s forwards;
+}
+.ghost.inverted { background: var(--c-magenta); }
+.impact-flash {
+    position: absolute; width: 100px; height: 100px;
+    background: radial-gradient(circle, #fff 0%, transparent 70%);
+    transform: translate(-50%, -50%); opacity: 0;
+    animation: flash 0.2s ease-out;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes floatPulse { to { transform: scale(1.1); box-shadow: 0 0 25px var(--c-white); } }
+@keyframes fadeOut { to { opacity: 0; transform: scale(0.5); } }
+@keyframes flash { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
+@keyframes shardExplode { to { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); } }
+@keyframes glitch {
+    0% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    5% { clip-path: inset(10% 0 80% 0); transform: translate(-2px); }
+    10% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    15% { clip-path: inset(80% 0 5% 0); transform: translate(2px); }
+    20% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+@keyframes flicker { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }

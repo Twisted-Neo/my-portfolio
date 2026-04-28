@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twisted Blackjack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="menu-overlay">
+        <div id="menu-content">
+            <h1>TWISTED<br><span class="highlight">BLACKJACK</span></h1>
+            <button id="start-btn">START</button>
+        </div>
+    </div>
+
+    <div id="shop-overlay" style="display: none;">
+        <div id="shop-content">
+            <h2>BLACK MARKET DECK SHOP</h2>
+            <div id="shop-gold-display">AVAILABLE GOLD: <span id="shop-gold-count" class="gold-text">0</span></div>
+            <div id="shop-items">
+                </div>
+            <button id="close-shop-btn">RETURN TO ARENA</button>
+        </div>
+    </div>
+
+    <div id="side">
+        <div id="info">
+            <div id="title">TWISTED BLACKJACK</div>
+            <div id="gold-display">GOLD: <span id="gold-count" class="gold-text">0</span></div>
+            <div id="info-controls">
+                <button id="restart">RESTART</button>
+                <button id="shop-btn">SHOP</button>
+            </div>
+        </div>
+        <div id="status">
+            <div class="label cpu-label">CPU INTEGRITY</div>
+            <div id="cpu-bar" class="health-bar">
+                <div class="progress-yellow"></div>
+                <div class="progress-red"></div>
+                <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+                <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+            </div>
+            
+            <div id="mult-container">
+                <div id="mult">
+                    <div id="mult-number">1x</div>
+                </div>
+                <div class="mult-label">POWER MULTIPLIER</div>
+            </div>
+
+            <div class="label player-label">PLAYER INTEGRITY</div>
+            <div id="player-bar" class="health-bar">
+                <div class="progress-yellow"></div>
+                <div class="progress-red"></div>
+                <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+                <div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div><div class="segment"></div>
+            </div>
+        </div>
+        <div id="todo">
+            <div id="todo-controls">
+                <button id="stand" class="action-btn">STAND</button>
+                <button id="hit" class="action-btn">HIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game">
+        <div id="cpu-area">
+            <div id="cpu-score" class="score-counter">CPU: 0</div>
+        </div>
+        <div id="action-area">
+            <div id="message">WAITING FOR COMMAND...</div>
+        </div>
+        <div id="player-area">
+            <div id="player-score" class="score-counter">PLAYER: 0</div>
+        </div>
+    </div>
+    
+    <div id="particles-container"></div>
+
+    <div id="crt-effects"></div>
+    
+    <script src="js/scripts.js"></script>
+</body>
+</html>

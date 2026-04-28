@@ -1,0 +1,243 @@
+/* --- ROOT VARIABLES --- */
+/* Matching your exact Blackjack palette for total brand consistency */
+:root {
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff0055;
+    --neon-green: #39ff14;
+    --neon-yellow: #fdf500;
+    --dark-bg: #0a0a0c;
+    --panel-bg: rgba(18, 18, 24, 0.95);
+    --glass-border: rgba(0, 243, 255, 0.2);
+    --text-main: #e0e0e0;
+}
+
+/* --- GLOBAL RESET & TERMINAL LOOK --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    font-family: 'Orbitron', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    /* Applied your specific contrast filter from Blackjack */
+    filter: contrast(1.15) brightness(1.05) saturate(1.2);
+    min-height: 100vh;
+}
+
+/* --- CRT & SCREEN OVERLAYS --- */
+#crt-effects {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+}
+
+/* --- HEADER & NAVIGATION --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 8%;
+    background: var(--panel-bg);
+    border-bottom: 2px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.highlight { 
+    color: var(--neon-blue); 
+    text-shadow: 0 0 10px var(--neon-blue); 
+}
+
+nav ul { 
+    display: flex; 
+    list-style: none; 
+    gap: 2.5rem; 
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; left: 0;
+    width: 0%; height: 2px;
+    background: var(--neon-pink);
+    transition: 0.3s;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+
+.nav-link:hover {
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* --- MAIN CONTENT CONTAINER --- */
+main {
+    padding: 4rem 10%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- THE "TERMINAL" WINDOW (Cards/Sections) --- */
+.terminal-window, .about-container, .project-card, .form-container {
+    background: var(--panel-bg);
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem;
+    position: relative;
+    border-radius: 4px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.terminal-header {
+    background: var(--glass-border);
+    margin: -2.5rem -2.5rem 2rem -2.5rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #444; }
+.terminal-title { font-size: 0.6rem; color: #888; font-family: 'Press Start 2P'; margin-left: 10px; }
+
+/* --- HERO SECTION --- */
+#hero { text-align: center; margin-bottom: 5rem; }
+
+.glitch {
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue);
+}
+
+/* --- PROJECT GRID --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.project-card:hover {
+    border-color: var(--neon-blue);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.1);
+}
+
+.status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+.online { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+.offline { background: #555; }
+
+/* --- BUTTONS (Interactive Logic) --- */
+.btn, .launch-btn, .submit-btn {
+    display: inline-block;
+    padding: 1.2rem 2.5rem;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.65rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid var(--neon-blue);
+    background: transparent;
+    color: var(--neon-blue);
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.btn:hover:not(.disabled) {
+    background: var(--neon-blue);
+    color: black;
+    box-shadow: 0 0 25px var(--neon-blue);
+}
+
+.disabled { opacity: 0.4; cursor: not-allowed; border-color: #666; color: #666; }
+
+/* --- FORMS & INPUTS --- */
+.input-group label {
+    display: block;
+    font-size: 0.7rem;
+    margin-bottom: 0.8rem;
+    color: var(--neon-blue);
+    font-family: 'Press Start 2P';
+}
+
+input, textarea {
+    width: 100%;
+    padding: 1.2rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--glass-border);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 2rem;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+}
+
+/* --- FOOTER --- */
+footer {
+    padding: 4rem 5%;
+    background: #050505;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.social-nodes { margin-bottom: 1.5rem; }
+
+.node-link {
+    color: #888;
+    text-decoration: none;
+    margin: 0 1.5rem;
+    font-size: 0.7rem;
+    font-family: 'Press Start 2P';
+    transition: 0.3s;
+}
+
+.node-link:hover { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    nav ul { display: none; } /* You can add a burger menu later */
+    .glitch { font-size: 2rem; }
+    main { padding: 2rem 5%; }
+}
