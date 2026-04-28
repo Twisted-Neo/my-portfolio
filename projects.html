@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT_ARCHIVE | System Modules</title>
+    <title>PROJECT_TIMELINE | System Evolution</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="timeline-body">
     <div id="crt-effects"></div>
+    <div id="transition-portal"></div>
 
     <header>
-        <div class="logo">
-            <span class="highlight">NODE</span>_EXPLORER
-        </div>
+        <div class="logo"><span class="highlight">NODE</span>_EXPLORER</div>
         <nav>
             <ul>
                 <li><a href="index.html" class="nav-link">HOME</a></li>
@@ -27,102 +26,67 @@
     </header>
 
     <main>
-        <section id="project-hub">
-            <h2 class="section-title">ACTIVE_ARCHIVES</h2>
+        <section id="timeline-sector">
+            <h2 class="section-title">DEVELOPMENT_TIMELINE</h2>
             
-            <div class="project-grid">
-                <article class="project-card featured">
-                    <div class="card-header">
-                        <span class="status-dot online"></span>
-                        <span class="module-id">MOD_01</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>TWISTED BLACKJACK</h3>
-                        <p>High-stakes logic-based card game with particle systems and a black market shop.</p>
-                        <div class="tech-stack">
-                            <span>JS_LOGIC</span>
-                            <span>CSS_ANIM</span>
-                        </div>
-                        <a href="Twisted_BlackJack/index.html" class="launch-btn">EXECUTE_MODULE</a>
-                    </div>
-                </article>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
 
-                <article class="project-card">
-                    <div class="card-header">
-                        <span class="status-dot online"></span>
-                        <span class="module-id">MOD_02</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>CYBER_RPSLS</h3>
-                        <p>Rock, Paper, Scissors redefined. Probability-based combat against the system AI.</p>
-                        <div class="tech-stack">
-                            <span>MATH_RANDOM</span>
+                <div class="timeline-item" data-url="ImageGen/index.html">
+                    <div class="timeline-dot"></div>
+                    <div class="project-screen">
+                        <div class="screen-content img-gen-bg">
+                            <div class="screen-overlay"><span>INIT_VISUAL_SYNTH</span></div>
                         </div>
-                        <a href="Twisted_RPSLS/index.html" class="launch-btn">EXECUTE_MODULE</a>
+                        <div class="project-info">
+                            <h3>VISUAL_SYNTH</h3>
+                            <p>Phase 01: DOM Manipulation & API Fetching</p>
+                        </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="project-card">
-                    <div class="card-header">
-                        <span class="status-dot online"></span>
-                        <span class="module-id">MOD_03</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>VISUAL_SYNTH</h3>
-                        <p>Automated image generation module utilizing external data-nodes.</p>
-                        <div class="tech-stack">
-                            <span>DOM_MANIP</span>
+                <div class="timeline-item" data-url="Twisted_Jumper/index.html">
+                    <div class="timeline-dot"></div>
+                    <div class="project-screen">
+                        <div class="screen-content jumper-bg">
+                            <div class="screen-overlay"><span>INIT_VOID_RUNNER</span></div>
                         </div>
-                        <a href="ImageGen/index.html" class="launch-btn">EXECUTE_MODULE</a>
+                        <div class="project-info">
+                            <h3>TWISTED_JUMPER</h3>
+                            <p>Phase 02: Keyframe Physics & Collision Logic</p>
+                        </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="project-card">
-                    <div class="card-header">
-                        <span class="status-dot offline"></span>
-                        <span class="module-id">MOD_04</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>TASK_MANIFEST</h3>
-                        <p>A mission-critical task manager for organizing operator objectives.</p>
-                        <div class="tech-stack">
-                            <span>ARRAY_METHODS</span>
+                <div class="timeline-item" data-url="Twisted_RPSLS/index.html">
+                    <div class="timeline-dot"></div>
+                    <div class="project-screen">
+                        <div class="screen-content rps-bg">
+                            <div class="screen-overlay"><span>INIT_CYBER_RPSLS</span></div>
                         </div>
-                        <a href="#" class="launch-btn disabled">LOCKED</a>
+                        <div class="project-info">
+                            <h3>CYBER_RPSLS</h3>
+                            <p>Phase 03: Randomized Probability Matrices</p>
+                        </div>
                     </div>
-                </article>
+                </div>
 
-                <article class="project-card">
-                    <div class="card-header">
-                        <span class="status-dot online"></span>
-                        <span class="module-id">MOD_05</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>TWISTED_JUMPER</h3>
-                        <p>Endless survival module. Avoid corruption obstacles to maintain system integrity.</p>
-                        <div class="tech-stack">
-                            <span>KEY_EVENTS</span>
+                <div class="timeline-item" data-url="Twisted_BlackJack/index.html">
+                    <div class="timeline-dot"></div>
+                    <div class="project-screen">
+                        <div class="screen-content blackjack-bg">
+                            <div class="screen-overlay"><span>INIT_TWISTED_BJ</span></div>
                         </div>
-                        <a href="Twisted_Jumper/index.html" class="launch-btn">EXECUTE_MODULE</a>
+                        <div class="project-info">
+                            <h3>TWISTED_BJ</h3>
+                            <p>Phase 04: Advanced State Management & Economy</p>
+                        </div>
                     </div>
-                </article>
+                </div>
 
             </div>
         </section>
     </main>
-
-    <footer>
-        <div class="footer-container">
-            <div class="social-nodes">
-                <a href="#" class="node-link">FB</a>
-                <a href="#" class="node-link">DC</a>
-                <a href="#" class="node-link">GH</a>
-            </div>
-            <div class="terminal-footer">
-                <p>ARCHIVE_ACCESS: GRANTED // © 2026</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="js/main.js"></script>
 </body>
