@@ -1,5 +1,4 @@
 /* --- ROOT VARIABLES --- */
-/* Matching your exact Blackjack palette for total brand consistency */
 :root {
     --neon-blue: #00f3ff;
     --neon-pink: #ff0055;
@@ -24,7 +23,6 @@ body {
     font-family: 'Orbitron', sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
-    /* Applied your specific contrast filter from Blackjack */
     filter: contrast(1.15) brightness(1.05) saturate(1.2);
     min-height: 100vh;
 }
@@ -41,7 +39,7 @@ body {
     opacity: 0.6;
 }
 
-/* --- TRANSITION PORTAL (The Animation Fill) --- */
+/* --- TRANSITION PORTAL --- */
 #transition-portal {
     position: fixed;
     top: 50%;
@@ -54,11 +52,11 @@ body {
     pointer-events: none;
     transition: width 0.6s ease-in, height 0.6s ease-in;
     box-shadow: 0 0 100px var(--neon-blue);
-    border-radius: 50%; /* Keeps the expansion circular until it fills the screen */
+    border-radius: 50%;
 }
 
 #transition-portal.active {
-    width: 300vw; /* Extra large to ensure full corner coverage */
+    width: 300vw;
     height: 300vh;
 }
 
@@ -122,14 +120,14 @@ nav ul {
     text-shadow: 0 0 8px var(--neon-blue);
 }
 
-/* --- MAIN CONTENT CONTAINER (from first code) --- */
+/* --- MAIN CONTENT CONTAINER --- */
 main {
     padding: 4rem 10%;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-/* --- THE "TERMINAL" WINDOW (Cards/Sections) --- */
+/* --- TERMINAL WINDOW --- */
 .terminal-window, .about-container, .project-card, .form-container {
     background: var(--panel-bg);
     border: 1px solid var(--glass-border);
@@ -164,30 +162,11 @@ main {
     text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--neon-blue);
 }
 
-/* --- PROJECT GRID (from first code) --- */
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+.button-group {
+    margin-top: 2rem;
 }
 
-.project-card:hover {
-    border-color: var(--neon-blue);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.1);
-}
-
-.status-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 10px;
-}
-.online { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-.offline { background: #555; }
-
-/* --- BUTTONS (Interactive Logic) --- */
-.btn, .launch-btn, .submit-btn {
+.btn {
     display: inline-block;
     padding: 1.2rem 2.5rem;
     font-family: 'Press Start 2P', cursive;
@@ -200,17 +179,213 @@ main {
     position: relative;
     overflow: hidden;
     transition: 0.4s;
+    margin: 0.5rem;
 }
 
-.btn:hover:not(.disabled) {
+.btn:hover {
     background: var(--neon-blue);
     color: black;
     box-shadow: 0 0 25px var(--neon-blue);
 }
 
-.disabled { opacity: 0.4; cursor: not-allowed; border-color: #666; color: #666; }
+.status-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
 
-/* --- FORMS & INPUTS --- */
+.status-item {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+}
+
+.label {
+    color: var(--neon-pink);
+}
+
+.value {
+    color: var(--neon-green);
+}
+
+/* --- HIGHLIGHT CARD --- */
+.highlight-card {
+    display: flex;
+    background: var(--panel-bg);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.highlight-card:hover {
+    border-color: var(--neon-blue);
+    transform: translateY(-5px);
+}
+
+.card-image {
+    flex: 1;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.img-placeholder {
+    font-family: 'Press Start 2P';
+    font-size: 0.8rem;
+    color: var(--neon-blue);
+    text-align: center;
+}
+
+.card-info {
+    flex: 1;
+    padding: 2rem;
+}
+
+.tag {
+    display: inline-block;
+    background: rgba(0, 243, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    margin: 0.5rem 0.5rem 0 0;
+    font-size: 0.7rem;
+    font-family: 'Press Start 2P';
+    border-left: 2px solid var(--neon-blue);
+}
+
+/* --- ABOUT PAGE --- */
+.about-container {
+    display: flex;
+    gap: 3rem;
+}
+
+.profile-side {
+    flex: 1;
+    text-align: center;
+}
+
+.image-frame {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    border: 2px solid var(--neon-blue);
+    padding: 0.5rem;
+    background: #000;
+}
+
+.profile-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #0a0a0c, #1a1a2e);
+    position: relative;
+    border: 1px solid var(--glass-border);
+}
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--neon-blue);
+    opacity: 0.6;
+    animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+.clearance-badge {
+    margin-top: 1rem;
+    font-family: 'Press Start 2P';
+    font-size: 0.6rem;
+    color: var(--neon-green);
+    border: 1px solid var(--neon-green);
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+.info-side {
+    flex: 2;
+}
+
+.skill-row {
+    margin: 1rem 0;
+}
+
+.skill-name {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.skill-bar {
+    background: rgba(255, 255, 255, 0.1);
+    height: 8px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    background: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+    width: 0%;
+    transition: width 1s ease;
+}
+
+/* --- CONTACT PAGE --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+}
+
+.connection-status {
+    background: var(--panel-bg);
+    border: 1px solid var(--glass-border);
+    padding: 2rem;
+}
+
+.signal-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
+}
+
+.bar {
+    width: 20px;
+    height: 30px;
+    background: var(--neon-green);
+    animation: pulse 1s infinite;
+}
+
+.bar:nth-child(2) { animation-delay: 0.2s; height: 45px; }
+.bar:nth-child(3) { animation-delay: 0.4s; height: 60px; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.directory-item {
+    margin: 1rem 0;
+    font-family: 'Press Start 2P';
+    font-size: 0.7rem;
+}
+
+.social-directory h3 {
+    margin: 1.5rem 0 1rem 0;
+    color: var(--neon-pink);
+}
+
+/* --- FORM STYLES --- */
+.input-group {
+    margin-bottom: 1rem;
+}
+
 .input-group label {
     display: block;
     font-size: 0.7rem;
@@ -226,7 +401,8 @@ input, textarea {
     border: 1px solid var(--glass-border);
     color: white;
     font-family: 'Orbitron', sans-serif;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    transition: 0.3s;
 }
 
 input:focus, textarea:focus {
@@ -235,22 +411,25 @@ input:focus, textarea:focus {
     box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
 }
 
-/* --- TIMELINE ARCHITECTURE (from second code) --- */
-#timeline-sector {
-    padding: 4rem 10%;
-    max-width: 1200px;
-    margin: 0 auto;
+.submit-btn {
+    width: 100%;
+    padding: 1.2rem;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.section-title {
-    font-family: 'Press Start 2P';
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    color: var(--neon-pink);
-    text-shadow: 0 0 10px var(--neon-pink);
+.submit-btn:hover {
+    background: var(--neon-blue);
+    color: black;
+    box-shadow: 0 0 20px var(--neon-blue);
 }
 
+/* --- TIMELINE --- */
 .timeline-container {
     position: relative;
     padding: 20px 0;
@@ -300,7 +479,6 @@ input:focus, textarea:focus {
     transform: scale(1.3);
 }
 
-/* --- PROJECT SCREENS (Monitor Look from second code) --- */
 .project-screen {
     background: var(--panel-bg);
     border: 1px solid var(--glass-border);
@@ -347,24 +525,16 @@ input:focus, textarea:focus {
     opacity: 1;
 }
 
-/* Screen Background Colors/Placeholder Gradients */
 .img-gen-bg { background: linear-gradient(45deg, #0f2027, #203a43); }
 .jumper-bg { background: linear-gradient(45deg, #141e30, #243b55); }
 .rps-bg { background: linear-gradient(45deg, #2c3e50, #000000); }
 .blackjack-bg { background: linear-gradient(45deg, #000000, #434343); }
 
-/* --- TEXT INFO (for timeline project-screen) --- */
 .project-info h3 {
     font-family: 'Press Start 2P';
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
     color: white;
-}
-
-.project-info p {
-    font-size: 0.8rem;
-    color: #888;
-    max-width: 400px;
 }
 
 /* --- FOOTER --- */
@@ -388,27 +558,20 @@ footer {
 
 .node-link:hover { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
 
-/* --- RESPONSIVE DESIGN (merged from both codes) --- */
-/* First code's breakpoint at 768px */
-@media (max-width: 768px) {
-    nav ul { display: none; } /* You can add a burger menu later */
+/* --- RESPONSIVE --- */
+@media (max-width: 850px) {
+    nav ul { display: none; }
+    .project-screen { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .screen-content { width: 100%; height: 180px; }
+    .timeline-item { padding-left: 50px; }
+    .about-container { flex-direction: column; }
+    .contact-grid { grid-template-columns: 1fr; }
     .glitch { font-size: 2rem; }
     main { padding: 2rem 5%; }
 }
 
-/* Second code's breakpoint at 850px (includes additional adjustments) */
-@media (max-width: 850px) {
-    .project-screen {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    .screen-content {
-        width: 100%;
-        height: 180px;
-    }
-    .timeline-item {
-        padding-left: 50px;
-    }
-    nav ul { display: none; }
+@media (max-width: 480px) {
+    .btn { display: block; width: 100%; margin: 0.5rem 0; }
+    .status-grid { flex-direction: column; gap: 0.5rem; }
+    .highlight-card { flex-direction: column; }
 }
