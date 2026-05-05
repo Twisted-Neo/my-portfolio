@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     timelineItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            // Prevent click if user clicked on a nested interactive element (rare)
-            if (e.target.closest('.screen-overlay')) {
-                e.preventDefault();
-            }
+            e.preventDefault();
             
             const url = item.getAttribute('data-url');
             if (!url) return;
@@ -32,73 +29,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Clone the image element and position it exactly over the original
-            const clone = imgElement.cloneNode(true);
+            // Get original position and size
             const rect = imgElement.getBoundingClientRect();
+            const scrollY = window.scrollY;
+            const scrollX = window.scrollX;
             
-            // Create overlay container
-            const overlay = document.createElement('div');
-            overlay.id = 'fullscreen-expansion-overlay';
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
-            overlay.style.zIndex = '20000';
-            overlay.style.display = 'flex';
-            overlay.style.alignItems = 'center';
-            overlay.style.justifyContent = 'center';
-            overlay.style.backdropFilter = 'blur(8px)';
-            overlay.style.transition = 'opacity 0.4s ease';
-            overlay.style.opacity = '0';
-            
-            // Style the cloned image
-            clone.style.position = 'absolute';
+            // Clone the image
+            const clone = imgElement.cloneNode(true);
+            clone.style.position = 'fixed';
             clone.style.top = `${rect.top}px`;
             clone.style.left = `${rect.left}px`;
             clone.style.width = `${rect.width}px`;
             clone.style.height = `${rect.height}px`;
             clone.style.objectFit = 'cover';
-            clone.style.transition = 'all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
             clone.style.zIndex = '20001';
             clone.style.boxShadow = '0 0 0 2px var(--neon-blue), 0 0 20px rgba(0, 243, 255, 0.5)';
             clone.style.borderRadius = '4px';
+            clone.style.transition = 'all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+            
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.92)';
+            overlay.style.backdropFilter = 'blur(10px)';
+            overlay.style.zIndex = '20000';
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.4s ease';
             
             overlay.appendChild(clone);
             document.body.appendChild(overlay);
             
-            // Force reflow to ensure initial position is set
+            // Force reflow
             clone.offsetHeight;
             
-            // Animate overlay background fade in
+            // Fade in overlay
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
             });
             
-            // Animate image expansion to full screen
+            // Animate image to full screen
             requestAnimationFrame(() => {
                 clone.style.top = '50%';
                 clone.style.left = '50%';
                 clone.style.transform = 'translate(-50%, -50%)';
-                clone.style.width = '90vw';
+                clone.style.width = 'min(90vw, 90vh)';
                 clone.style.height = 'auto';
-                clone.style.maxHeight = '90vh';
                 clone.style.objectFit = 'contain';
                 clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.8)';
                 clone.style.borderRadius = '8px';
             });
             
-            // Listen for transition end
+            // Navigate after transition ends
             const onTransitionEnd = () => {
                 clone.removeEventListener('transitionend', onTransitionEnd);
-                // Navigate to project URL
                 window.location.href = url;
             };
-            
             clone.addEventListener('transitionend', onTransitionEnd, { once: true });
             
-            // Safety timeout in case transitionend doesn't fire
+            // Safety timeout
             setTimeout(() => {
                 if (document.body.contains(overlay)) {
                     window.location.href = url;
