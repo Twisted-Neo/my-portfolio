@@ -16,37 +16,34 @@ document.addEventListener('DOMContentLoaded', () => {
     
     timelineItems.forEach(item => {
         item.style.cursor = 'pointer';
-        item.addEventListener('click', async (e) => {
-            // Prevent any default behavior or bubbling
+        item.addEventListener('click', (e) => {
             e.stopPropagation();
             const url = item.getAttribute('data-url');
             if (!url) return;
             
-            // Get the preview image
+            console.log('Project clicked:', url);
+            
             const imgElement = item.querySelector('.screen-content img');
             if (!imgElement) {
-                // No image found, just navigate
                 window.location.href = url;
                 return;
             }
             
-            // Get position relative to viewport
             const rect = imgElement.getBoundingClientRect();
             if (rect.width === 0 || rect.height === 0) {
                 window.location.href = url;
                 return;
             }
             
-            // Disable pointer events on all timeline items to prevent multiple clicks
             timelineItems.forEach(i => i.style.pointerEvents = 'none');
             
-            // Clone the image
             const clone = imgElement.cloneNode(true);
+            // Initial position: exactly over the original image (viewport-relative)
             clone.style.position = 'fixed';
-            clone.style.top = `${rect.top}px`;
-            clone.style.left = `${rect.left}px`;
-            clone.style.width = `${rect.width}px`;
-            clone.style.height = `${rect.height}px`;
+            clone.style.top = rect.top + 'px';
+            clone.style.left = rect.left + 'px';
+            clone.style.width = rect.width + 'px';
+            clone.style.height = rect.height + 'px';
             clone.style.objectFit = 'cover';
             clone.style.zIndex = '20001';
             clone.style.boxShadow = '0 0 0 2px var(--neon-blue), 0 0 20px rgba(0, 243, 255, 0.5)';
@@ -54,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
             clone.style.transition = 'all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
             clone.style.willChange = 'transform, width, height, top, left';
             
-            // Create overlay
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
             overlay.style.top = '0';
@@ -70,47 +66,45 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.appendChild(clone);
             document.body.appendChild(overlay);
             
-            // Force reflow
-            clone.offsetHeight;
+            clone.offsetHeight; // force reflow
             
-            // Fade in overlay
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
             });
             
-            // Start expansion on next frame
+            // Calculate final centered position in viewport (pixel-based)
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const maxWidth = viewportWidth * 0.9;
+            const maxHeight = viewportHeight * 0.9;
+            const imgRatio = rect.width / rect.height;
+            let finalWidth, finalHeight;
+            if (maxWidth / maxHeight > imgRatio) {
+                finalHeight = maxHeight;
+                finalWidth = finalHeight * imgRatio;
+            } else {
+                finalWidth = maxWidth;
+                finalHeight = finalWidth / imgRatio;
+            }
+            const finalLeft = (viewportWidth - finalWidth) / 2;
+            const finalTop = (viewportHeight - finalHeight) / 2;
+            
             requestAnimationFrame(() => {
-                // Calculate centered final size
-                const maxWidth = window.innerWidth * 0.9;
-                const maxHeight = window.innerHeight * 0.9;
-                const imgRatio = rect.width / rect.height;
-                let finalWidth, finalHeight;
-                if (maxWidth / maxHeight > imgRatio) {
-                    finalHeight = maxHeight;
-                    finalWidth = finalHeight * imgRatio;
-                } else {
-                    finalWidth = maxWidth;
-                    finalHeight = finalWidth / imgRatio;
-                }
-                
-                clone.style.top = '50%';
-                clone.style.left = '50%';
-                clone.style.transform = 'translate(-50%, -50%)';
-                clone.style.width = `${finalWidth}px`;
-                clone.style.height = `${finalHeight}px`;
+                clone.style.top = finalTop + 'px';
+                clone.style.left = finalLeft + 'px';
+                clone.style.width = finalWidth + 'px';
+                clone.style.height = finalHeight + 'px';
                 clone.style.objectFit = 'contain';
                 clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.9)';
                 clone.style.borderRadius = '12px';
             });
             
-            // Navigate after transition
             const onTransitionEnd = () => {
                 clone.removeEventListener('transitionend', onTransitionEnd);
                 window.location.href = url;
             };
             clone.addEventListener('transitionend', onTransitionEnd, { once: true });
             
-            // Fallback: if transition doesn't fire (e.g., no transition property), navigate after delay
             setTimeout(() => {
                 if (document.body.contains(overlay)) {
                     window.location.href = url;
@@ -214,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Button glitch effect
     const buttons = document.querySelectorAll('.btn, .submit-btn, .launch-btn');
     buttons.forEach(btn => {
         btn.addEventListener('mouseenter', () => {
@@ -225,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Scanline animation for about page
     const scanLine = document.querySelector('.scan-line');
     if (scanLine) {
         setInterval(() => {
