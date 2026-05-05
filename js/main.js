@@ -11,28 +11,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // New full‑screen image expansion transition for timeline items
+    // Full-screen image expansion transition for timeline items
     const timelineItems = document.querySelectorAll('.timeline-item');
     
     timelineItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', async (e) => {
+            // Prevent any default behavior or bubbling
+            e.stopPropagation();
             const url = item.getAttribute('data-url');
             if (!url) return;
             
-            // Get the preview image inside this timeline item
+            // Get the preview image
             const imgElement = item.querySelector('.screen-content img');
             if (!imgElement) {
-                // Fallback to normal redirect if no image found
+                // No image found, just navigate
                 window.location.href = url;
                 return;
             }
             
-            // Get original position and size
+            // Get position relative to viewport
             const rect = imgElement.getBoundingClientRect();
-            const scrollY = window.scrollY;
-            const scrollX = window.scrollX;
+            if (rect.width === 0 || rect.height === 0) {
+                window.location.href = url;
+                return;
+            }
+            
+            // Disable pointer events on all timeline items to prevent multiple clicks
+            timelineItems.forEach(i => i.style.pointerEvents = 'none');
             
             // Clone the image
             const clone = imgElement.cloneNode(true);
@@ -45,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             clone.style.zIndex = '20001';
             clone.style.boxShadow = '0 0 0 2px var(--neon-blue), 0 0 20px rgba(0, 243, 255, 0.5)';
             clone.style.borderRadius = '4px';
-            clone.style.transition = 'all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+            clone.style.transition = 'all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+            clone.style.willChange = 'transform, width, height, top, left';
             
             // Create overlay
             const overlay = document.createElement('div');
@@ -55,10 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.style.width = '100%';
             overlay.style.height = '100%';
             overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.92)';
-            overlay.style.backdropFilter = 'blur(10px)';
+            overlay.style.backdropFilter = 'blur(8px)';
             overlay.style.zIndex = '20000';
             overlay.style.opacity = '0';
-            overlay.style.transition = 'opacity 0.4s ease';
+            overlay.style.transition = 'opacity 0.3s ease';
             
             overlay.appendChild(clone);
             document.body.appendChild(overlay);
@@ -71,31 +78,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 overlay.style.opacity = '1';
             });
             
-            // Animate image to full screen
+            // Start expansion on next frame
             requestAnimationFrame(() => {
+                // Calculate centered final size
+                const maxWidth = window.innerWidth * 0.9;
+                const maxHeight = window.innerHeight * 0.9;
+                const imgRatio = rect.width / rect.height;
+                let finalWidth, finalHeight;
+                if (maxWidth / maxHeight > imgRatio) {
+                    finalHeight = maxHeight;
+                    finalWidth = finalHeight * imgRatio;
+                } else {
+                    finalWidth = maxWidth;
+                    finalHeight = finalWidth / imgRatio;
+                }
+                
                 clone.style.top = '50%';
                 clone.style.left = '50%';
                 clone.style.transform = 'translate(-50%, -50%)';
-                clone.style.width = 'min(90vw, 90vh)';
-                clone.style.height = 'auto';
+                clone.style.width = `${finalWidth}px`;
+                clone.style.height = `${finalHeight}px`;
                 clone.style.objectFit = 'contain';
-                clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.8)';
-                clone.style.borderRadius = '8px';
+                clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 40px rgba(0, 243, 255, 0.9)';
+                clone.style.borderRadius = '12px';
             });
             
-            // Navigate after transition ends
+            // Navigate after transition
             const onTransitionEnd = () => {
                 clone.removeEventListener('transitionend', onTransitionEnd);
                 window.location.href = url;
             };
             clone.addEventListener('transitionend', onTransitionEnd, { once: true });
             
-            // Safety timeout
+            // Fallback: if transition doesn't fire (e.g., no transition property), navigate after delay
             setTimeout(() => {
                 if (document.body.contains(overlay)) {
                     window.location.href = url;
                 }
-            }, 1000);
+            }, 800);
         });
     });
 
