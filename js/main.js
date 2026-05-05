@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Active navigation highlighting based on current URL
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Timeline transition effect (projects page only)
     const items = document.querySelectorAll('.timeline-item');
     const portal = document.getElementById('transition-portal');
     
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Contact form handling
     const contactForm = document.getElementById('uplink-form');
     const feedbackDiv = document.getElementById('form-feedback');
     
@@ -129,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Add glitch effect on hover for buttons
     const buttons = document.querySelectorAll('.btn, .submit-btn, .launch-btn');
     buttons.forEach(btn => {
         btn.addEventListener('mouseenter', () => {
@@ -140,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Scanline animation for profile frame (about page)
     const scanLine = document.querySelector('.scan-line');
     if (scanLine) {
         setInterval(() => {
@@ -151,6 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     }
     
-    // Add subtle console greeting
     console.log('%c[SYSTEM] NODE_EXPLORER PORTFOLIO LOADED', 'color: #00f3ff; font-family: monospace; font-size: 12px');
 });
