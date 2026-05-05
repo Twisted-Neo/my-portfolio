@@ -1,0 +1,95 @@
+body {
+    font-family: sans-serif;
+    background: linear-gradient(135deg, rgba(241,140,142,0.6), rgba(48,95,114,0.6));
+    background-size: 220% 220% ;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95.5vh;
+    backdrop-filter: blur(10px);
+    color: #305F72;
+   
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 50% 100%;}
+    100% {background-position: 0% 50%;}
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    background-color: #d7d7d792;
+    border: inset #305f727a;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    padding: 8px 12px;
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #f1d1b58c;
+}
+
+ul {
+    margin-top: 20px;
+    padding-left: 0;
+    list-style: none;
+}
+
+li {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 6px 12px;
+    border-bottom: 1px solid #568EA6;
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+li span {
+    flex-grow: 1;
+}
+
+li button {
+    padding: 4px 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #F18C8E;
+    color: white;
+    cursor: pointer;
+}
+
+li button:hover {
+    background-color: #F05555;
+}
