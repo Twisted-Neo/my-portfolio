@@ -87,6 +87,7 @@ header {
     height: 40px;
     width: auto;
     display: block;
+    filter: drop-shadow(0 0 5px var(--neon-blue));
 }
 
 .highlight { 
@@ -438,7 +439,7 @@ input:focus, textarea:focus {
     box-shadow: 0 0 20px var(--neon-blue);
 }
 
-/* --- TIMELINE --- */
+/* --- TIMELINE / PROJECTS PAGE --- */
 .timeline-container {
     position: relative;
     padding: 20px 0;
@@ -534,16 +535,61 @@ input:focus, textarea:focus {
     opacity: 1;
 }
 
+/* Backgrounds for different project cards */
 .img-gen-bg { background: linear-gradient(45deg, #0f2027, #203a43); }
 .jumper-bg { background: linear-gradient(45deg, #141e30, #243b55); }
 .rps-bg { background: linear-gradient(45deg, #2c3e50, #000000); }
 .blackjack-bg { background: linear-gradient(45deg, #000000, #434343); }
+.todo-bg { background: linear-gradient(45deg, #1a2a3a, #0f1a24); }
 
 .project-info h3 {
     font-family: 'Press Start 2P';
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
     color: white;
+}
+
+/* --- GALLERY PAGE --- */
+#gallery-section {
+    padding: 2rem 0;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    background: var(--panel-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.gallery-caption {
+    padding: 1rem;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--neon-blue);
+    background: rgba(0,0,0,0.7);
 }
 
 /* --- FOOTER --- */
@@ -567,7 +613,7 @@ footer {
 
 .node-link:hover { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
 
-/* --- RESPONSIVE --- */
+/* --- RESPONSIVE DESIGN --- */
 @media (max-width: 850px) {
     nav ul { display: none; }
     .project-screen { flex-direction: column; align-items: flex-start; gap: 15px; }
