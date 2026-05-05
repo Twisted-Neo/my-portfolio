@@ -75,19 +75,17 @@ header {
 }
 
 .logo {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.8rem;
-    color: white;
     display: flex;
     align-items: center;
     gap: 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .logo img {
     height: 40px;
     width: auto;
-    display: block;
-    filter: drop-shadow(0 0 5px var(--neon-blue));
 }
 
 .highlight { 
