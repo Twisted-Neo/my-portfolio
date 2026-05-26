@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const timelineItems = document.querySelectorAll('.timeline-item');
-    
+
     timelineItems.forEach(item => {
         item.style.cursor = 'pointer';
         item.addEventListener('click', (e) => {
@@ -26,22 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Get the image's viewport position and size
-            const rect = imgElement.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) {
-                window.location.href = url;
-                return;
-            }
-
-            // Copy essential computed styles so the clone looks identical
-            const computed = getComputedStyle(imgElement);
-            const objectFit = computed.objectFit;
-            const borderRadius = computed.borderRadius;
-
-            // Disable all timeline clicks during animation
+            // Prevent accidental double-clicks
             timelineItems.forEach(i => i.style.pointerEvents = 'none');
 
-            // --- Create overlay (fades in) ---
+            // --- Create full-screen fixed overlay ---
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
             overlay.style.top = '0';
@@ -51,86 +39,66 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.96)';
             overlay.style.backdropFilter = 'blur(12px)';
             overlay.style.zIndex = '20000';
-            overlay.style.opacity = '0';
-            overlay.style.transition = 'opacity 0.3s ease';
             overlay.style.display = 'flex';
             overlay.style.alignItems = 'center';
             overlay.style.justifyContent = 'center';
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.3s ease';
 
             // --- Clone the image ---
             const clone = imgElement.cloneNode(true);
-            // Force it to exactly the original’s rendered size
-            clone.style.width = `${rect.width}px`;
-            clone.style.height = `${rect.height}px`;
-            clone.style.objectFit = objectFit;
-            clone.style.borderRadius = borderRadius;
-            clone.style.position = 'absolute';
-            // Start exactly over the original using transform (GPU)
-            clone.style.transform = `translate(${rect.left}px, ${rect.top}px) scale(1)`;
-            clone.style.transformOrigin = '0 0';
-            clone.style.zIndex = '20001';
-            clone.style.boxShadow = '0 0 0 2px var(--neon-blue), 0 0 20px rgba(0, 243, 255, 0.5)';
-            clone.style.transition = 'transform 0.65s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.65s ease';
-            clone.style.willChange = 'transform';
+            // Keep the original aspect ratio and styling
+            const naturalW = imgElement.naturalWidth || imgElement.width;
+            const naturalH = imgElement.naturalHeight || imgElement.height;
+            const maxW = window.innerWidth * 0.85;
+            const maxH = window.innerHeight * 0.85;
+            let finalW = naturalW;
+            let finalH = naturalH;
+
+            if (finalW > maxW || finalH > maxH) {
+                const scale = Math.min(maxW / finalW, maxH / finalH);
+                finalW *= scale;
+                finalH *= scale;
+            }
+
+            clone.style.width = `${finalW}px`;
+            clone.style.height = `${finalH}px`;
+            clone.style.objectFit = 'contain';
+            clone.style.borderRadius = '12px';
+            clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 50px rgba(0, 243, 255, 0.9)';
+            clone.style.transform = 'scale(0.85)';
+            clone.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.4s ease';
+            clone.style.opacity = '0';
 
             overlay.appendChild(clone);
             document.body.appendChild(overlay);
 
-            // Force a style recalculation so the browser registers the starting position
-            clone.offsetHeight;
-
-            // --- Fade in the dark background ---
+            // Force layout then animate in
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
+                clone.style.opacity = '1';
+                clone.style.transform = 'scale(1)';
             });
 
-            // --- Calculate the final centered scale ---
-            const viewportW = window.innerWidth;
-            const viewportH = window.innerHeight;
-            const maxW = viewportW * 0.9;
-            const maxH = viewportH * 0.9;
-            const imgRatio = rect.width / rect.height;
-            let finalW, finalH;
-            if (maxW / maxH > imgRatio) {
-                finalH = maxH;
-                finalW = finalH * imgRatio;
-            } else {
-                finalW = maxW;
-                finalH = finalW / imgRatio;
-            }
-            const scale = finalW / rect.width; // same as finalH / rect.height
-            const finalCenterX = (viewportW - finalW) / 2;
-            const finalCenterY = (viewportH - finalH) / 2;
-
-            // --- Start the expansion after a micro‑delay ---
-            setTimeout(() => {
-                clone.style.transform = `translate(${finalCenterX}px, ${finalCenterY}px) scale(${scale})`;
-                clone.style.boxShadow = '0 0 0 4px var(--neon-blue), 0 0 50px rgba(0, 243, 255, 0.9)';
-            }, 20);
-
-            // --- Navigate when the animation ends ---
-            const onTransitionEnd = () => {
-                clone.removeEventListener('transitionend', onTransitionEnd);
-                window.location.href = url;
+            // --- Navigate when the animation finishes ---
+            const onTransitionEnd = (e) => {
+                if (e.propertyName === 'transform') {
+                    clone.removeEventListener('transitionend', onTransitionEnd);
+                    window.location.href = url;
+                }
             };
             clone.addEventListener('transitionend', onTransitionEnd, { once: true });
 
-            // Fallback: if the transition never fires, still navigate
-            const fallbackTimer = setTimeout(() => {
+            // Fallback navigation (1 second)
+            const fallback = setTimeout(() => {
                 if (document.body.contains(overlay)) {
-                    // Clean up if possible
-                    document.body.removeChild(overlay);
-                    timelineItems.forEach(i => i.style.pointerEvents = 'auto');
                     window.location.href = url;
                 }
-            }, 1200);
+            }, 1000);
 
-            // If the user somehow navigates back before the fallback, clean up
+            // Clean up if page is hidden early
             window.addEventListener('pagehide', () => {
-                clearTimeout(fallbackTimer);
-                if (document.body.contains(overlay)) {
-                    document.body.removeChild(overlay);
-                }
+                clearTimeout(fallback);
             }, { once: true });
         });
     });
