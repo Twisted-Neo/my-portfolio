@@ -20,13 +20,13 @@
     const starsNear = ui.world.insertBefore(mkDiv('star-layer', 'stars-near'), ui.world.firstChild);
 
     const aud = {
-        land: new Audio('/assets/Land.mp3'), 
-        slide: new Audio('/assets/Slide.mp3'),
-        speedUp: new Audio('/assets/SpeedUp.mp3'), 
-        music: new Audio('/assets/MusicLoop.mp3'),
-        gameOver: new Audio('/assets/GameOver.mp3'),
-        invert: new Audio('/assets/Invert.mp3'),
-        powerUp: new Audio('/assets/PoweUp.mp3') 
+        land: new Audio('assets/Land.mp3'), 
+        slide: new Audio('assets/Slide.mp3'),
+        speedUp: new Audio('assets/SpeedUp.mp3'), 
+        music: new Audio('assets/MusicLoop.mp3'),
+        gameOver: new Audio('assets/GameOver.mp3'),
+        invert: new Audio('assets/Invert.mp3'),
+        powerUp: new Audio('assets/PowUp.mp3')
     };
     aud.music.loop = true; aud.music.volume = 0.5;
     const playSnd = (s) => { s.currentTime = 0; s.play().catch(() => {}); };
