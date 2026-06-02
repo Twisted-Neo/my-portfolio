@@ -118,7 +118,11 @@ const updateScoreUI = () => {
     const hiddenCard = document.querySelector('.card-hidden');
     let cpuVisibleScore = 0;
     if (hiddenCard) {
-        const visibleCards = cpuHand.filter((_, idx) => !cpuArea.querySelectorAll('.card')[idx]?.classList.contains('card-hidden'));
+        // 🔧 FIXED: use DOM.cpuArea instead of undefined cpuArea
+        const visibleCards = cpuHand.filter((_, idx) => {
+            const cardEl = DOM.cpuArea.querySelectorAll('.card')[idx];
+            return cardEl && !cardEl.classList.contains('card-hidden');
+        });
         cpuVisibleScore = getScore(visibleCards);
     } else {
         cpuVisibleScore = getScore(cpuHand);
